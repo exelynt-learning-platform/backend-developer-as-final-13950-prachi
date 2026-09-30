@@ -2,6 +2,7 @@ package com.example.resource.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -56,24 +57,29 @@ public class SecurityConfig {
 
                         // Resource access
                         .requestMatchers(
-                                org.springframework.http.HttpMethod.GET,
+                                HttpMethod.GET,
                                 "/resources/**"
                         ).hasAnyRole("USER", "ADMIN")
 
                         .requestMatchers(
-                                org.springframework.http.HttpMethod.POST,
+                                HttpMethod.POST,
                                 "/resources/**"
                         ).hasRole("ADMIN")
 
                         .requestMatchers(
-                                org.springframework.http.HttpMethod.PUT,
+                                HttpMethod.PUT,
                                 "/resources/**"
                         ).hasRole("ADMIN")
 
                         .requestMatchers(
-                                org.springframework.http.HttpMethod.DELETE,
+                                HttpMethod.DELETE,
                                 "/resources/**"
                         ).hasRole("ADMIN")
+
+                        // Reservation access
+                        .requestMatchers(
+                                "/reservations/**"
+                        ).hasAnyRole("USER", "ADMIN")
 
                         // Everything else requires authentication
                         .anyRequest().authenticated()
